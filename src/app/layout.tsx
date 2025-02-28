@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
-import { Header } from "@/components/header"
-import { ThemeProvider } from "@/components/theme-provider"
+import { Header } from "@/components/layout/header"
+import { ThemeProvider } from "@/components/theme/theme-provider"
 
 export const metadata: Metadata = {
     title: {
