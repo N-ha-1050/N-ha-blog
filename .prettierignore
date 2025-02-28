@@ -1,0 +1,6 @@
+# Ignore artifacts:
+build
+coverage
+
+# 自動生成と競合するため除外
+pnpm-lock.yaml
