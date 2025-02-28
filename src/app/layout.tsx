@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
+import { Header } from "@/components/header"
+import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
     title: {
@@ -16,8 +18,20 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        <html lang="ja">
-            <body>{children}</body>
+        <html lang="ja" suppressHydrationWarning>
+            <body>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <Header />
+                    <main className="mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-8 py-16">
+                        {children}
+                    </main>
+                </ThemeProvider>
+            </body>
         </html>
     )
 }
