@@ -31,7 +31,7 @@ export default async function Post(props: { params: Promise<{ id: string }> }) {
                 <p>作成日 {createdAt.toLocaleDateString("ja-JP", options)}</p>
                 <p>更新日 {updatedAt.toLocaleDateString("ja-JP", options)}</p>
             </div>
-            <div className="prose prose-lg prose-slate dark:prose-invert">
+            <div className="prose prose-lg prose-slate max-w-none dark:prose-invert">
                 {content}
             </div>
         </div>
