@@ -1,31 +1,20 @@
 import { Tag } from "@prisma/client"
-import { Badge, badgeVariants } from "@/components/ui/badge"
+import { Badge, BadgeProps } from "@/components/ui/badge"
 import Link from "next/link"
 
 export function TagBadge({
     tag,
-    isLink,
-    className,
-    variant,
+    isLink = false,
+    ...props
 }: {
     tag: Tag
     isLink?: boolean
-    variant?: "outline" | "default"
-    className?: string
-}) {
+} & BadgeProps) {
+    const tagBadge = <Badge {...props}>{tag.name}</Badge>
+
     if (isLink) {
-        return (
-            <Link
-                href={`/posts?t=${tag.name}`}
-                className={badgeVariants({ variant, className })}
-            >
-                {tag.name}
-            </Link>
-        )
+        return <Link href={`/posts?t=${tag.name}`}>{tagBadge}</Link>
     }
-    return (
-        <Badge className={className} variant={variant}>
-            {tag.name}
-        </Badge>
-    )
+
+    return tagBadge
 }
