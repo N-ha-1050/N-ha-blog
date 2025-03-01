@@ -1,7 +1,13 @@
 import { PostList, PostListSkeleton } from "@/components/post/list"
 import Search from "@/components/post/search"
 import { TagList } from "@/components/tag/list"
+import { Metadata } from "next"
 import { Suspense } from "react"
+
+export const metadata: Metadata = {
+    title: "記事一覧",
+    description: "記事一覧ページです。",
+}
 
 export default async function Posts(props: {
     searchParams?: Promise<{

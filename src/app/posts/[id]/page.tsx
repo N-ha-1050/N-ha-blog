@@ -5,6 +5,26 @@ import { TagList } from "@/components/tag/list"
 import "katex/dist/katex.min.css"
 import "highlight.js/styles/base16/google-dark.min.css"
 
+type Props = { params: Promise<{ id: string }> }
+
+async function getPost(params: Props) {
+    const { id } = await params.params
+    if (!id || id.length !== 36) notFound()
+    const post = await prisma.post.findUnique({
+        where: { id, isVisible: true },
+        include: { tags: true },
+    })
+    if (!post) notFound()
+    return post
+}
+
+export async function generateMetadata(params: Props) {
+    const post = await getPost(params)
+    return {
+        title: post.title,
+    }
+}
+
 const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
     year: "numeric",
@@ -12,14 +32,9 @@ const options: Intl.DateTimeFormatOptions = {
     day: "numeric",
     timeZone: "Asia/Tokyo",
 }
-export default async function Post(props: { params: Promise<{ id: string }> }) {
-    const { id } = await props.params
-    if (!id || id.length !== 36) notFound()
-    const post = await prisma.post.findUnique({
-        where: { id, isVisible: true },
-        include: { tags: true },
-    })
-    if (!post) notFound()
+
+export default async function Post(props: Props) {
+    const post = await getPost(props)
     const createdAt = new Date(post.createdAt)
     const updatedAt = new Date(post.updatedAt)
     const content = await markReact(post.content)
