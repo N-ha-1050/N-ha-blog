@@ -16,7 +16,7 @@ type PostProps = {
 export function PostCard({ post }: PostProps) {
     return (
         <Link href={`/posts/${post.id}`}>
-            <Card className="h-36 w-72 hover:border-foreground">
+            <Card className="h-36 w-64 hover:border-foreground">
                 <CardHeader>
                     <CardTitle className="truncate">{post.title}</CardTitle>
                     <TagList tags={post.tags} />
@@ -29,7 +29,7 @@ export function PostCard({ post }: PostProps) {
 
 export function PostCardSkeleton() {
     return (
-        <Card className="h-36 w-72 animate-pulse">
+        <Card className="h-36 w-64 animate-pulse">
             <CardHeader>
                 <CardTitle className="truncate">
                     <Skeleton className="h-4" />
