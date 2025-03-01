@@ -24,7 +24,6 @@ export default async function Posts(props: {
             <TagList
                 tags={tags.map((name) => ({ name }))}
                 className="text-lg"
-                isLink
             />
             <Suspense key={query + page + tags} fallback={<PostListSkeleton />}>
                 <PostList page={page} query={query} tags={tags} />
