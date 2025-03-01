@@ -12,7 +12,8 @@
         "db:migrate": "pnpm dlx prisma migrate dev",
         "db:studio": "pnpm dlx prisma studio",
         "db:reset": "pnpm dlx prisma migrate reset",
-        "db:seed": "pnpm dlx prisma db seed"
+        "db:seed": "pnpm dlx prisma db seed",
+        "postinstall": "prisma generate"
     },
     "prisma": {
         "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
