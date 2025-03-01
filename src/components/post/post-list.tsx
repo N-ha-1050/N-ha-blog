@@ -14,11 +14,15 @@ type Where = {
                   | {
                         tags: {
                             some: {
-                                name: { contains: string; mode: "insensitive" }
+                                name: {
+                                    contains: string
+                                    mode: "insensitive"
+                                }
                             }
                         }
                     }
               )[]
+              isVisible: boolean
           }
         | {
               tags?: {
@@ -56,7 +60,7 @@ export async function PostList({
                         },
                     },
                 ],
-                // isVisible: true,
+                isVisible: true,
             },
             tags.length > 0
                 ? {

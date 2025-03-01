@@ -1,5 +1,6 @@
 import { PostList, PostListSkeleton } from "@/components/post/post-list"
 import Search from "@/components/post/search"
+import { TagList } from "@/components/tag/tag-list"
 import { Suspense } from "react"
 
 export default async function Posts(props: {
@@ -20,6 +21,11 @@ export default async function Posts(props: {
         <div className="flex flex-col items-center gap-4">
             <h1 className="mb-8 text-4xl font-bold">記事一覧</h1>
             <Search placeholder="検索" />
+            <TagList
+                tags={tags.map((name) => ({ name }))}
+                className="text-lg"
+                isLink
+            />
             <Suspense key={query + page + tags} fallback={<PostListSkeleton />}>
                 <PostList page={page} query={query} tags={tags} />
             </Suspense>

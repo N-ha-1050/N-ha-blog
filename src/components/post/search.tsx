@@ -21,14 +21,13 @@ export default function Search({ placeholder }: { placeholder: string }) {
     const query = searchParams.get("q")?.toString() || ""
 
     return (
-        <div className="relative flex flex-1 flex-shrink-0">
-            <Input
-                placeholder={placeholder}
-                onChange={(e) => {
-                    handleSearch(e.target.value)
-                }}
-                defaultValue={query}
-            />
-        </div>
+        <Input
+            placeholder={placeholder}
+            onChange={(e) => {
+                handleSearch(e.target.value)
+            }}
+            defaultValue={query}
+            className="w-64"
+        />
     )
 }

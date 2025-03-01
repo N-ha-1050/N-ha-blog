@@ -4,7 +4,6 @@ import {
     PaginationContent,
     Pagination,
     PaginationItem,
-    PaginationEllipsis,
 } from "@/components/ui/pagination"
 import { usePathname, useSearchParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -50,7 +49,7 @@ export function PostPagination({ lastPage }: { lastPage: number }) {
                         size="icon"
                         disabled={page === 1}
                     >
-                        <ChevronFirst className="h-4 w-4" />
+                        <ChevronFirst className="size-4" />
                     </Button>
                 </PaginationItem>
                 <PaginationItem>
@@ -62,7 +61,7 @@ export function PostPagination({ lastPage }: { lastPage: number }) {
                         size="icon"
                         disabled={page === 1}
                     >
-                        <ChevronLeft className="h-4 w-4" />
+                        <ChevronLeft className="size-4" />
                     </Button>
                 </PaginationItem>
                 <PaginationItem>
@@ -92,7 +91,7 @@ export function PostPagination({ lastPage }: { lastPage: number }) {
                         size="icon"
                         disabled={page === lastPage}
                     >
-                        <ChevronRight className="h-4 w-4" />
+                        <ChevronRight className="size-4" />
                     </Button>
                 </PaginationItem>
                 <PaginationItem>
@@ -104,7 +103,7 @@ export function PostPagination({ lastPage }: { lastPage: number }) {
                         size="icon"
                         disabled={page === lastPage}
                     >
-                        <ChevronLast className="h-4 w-4" />
+                        <ChevronLast className="size-4" />
                     </Button>
                 </PaginationItem>
             </PaginationContent>
@@ -120,12 +119,12 @@ export function PostPaginationSkeleton() {
             <PaginationContent>
                 <PaginationItem>
                     <Button variant="ghost" size="icon" disabled>
-                        <ChevronFirst className="h-4 w-4" />
+                        <ChevronFirst className="size-4" />
                     </Button>
                 </PaginationItem>
                 <PaginationItem>
                     <Button variant="ghost" size="icon" disabled>
-                        <ChevronLeft className="h-4 w-4" />
+                        <ChevronLeft className="size-4" />
                     </Button>
                 </PaginationItem>
                 <PaginationItem>
@@ -142,12 +141,12 @@ export function PostPaginationSkeleton() {
                 </PaginationItem>
                 <PaginationItem>
                     <Button variant="ghost" size="icon" disabled>
-                        <ChevronRight className="h-4 w-4" />
+                        <ChevronRight className="size-4" />
                     </Button>
                 </PaginationItem>
                 <PaginationItem>
                     <Button variant="ghost" size="icon" disabled>
-                        <ChevronLast className="h-4 w-4" />
+                        <ChevronLast className="size-4" />
                     </Button>
                 </PaginationItem>
             </PaginationContent>
