@@ -10,6 +10,7 @@ const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "Asia/Tokyo",
 }
 export default async function Post(props: { params: Promise<{ id: string }> }) {
     const { id } = await props.params
