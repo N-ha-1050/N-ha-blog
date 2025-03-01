@@ -8,9 +8,17 @@
         "start": "next start",
         "lint": "next lint",
         "format": "prettier --write .",
-        "ui:add": "pnpm dlx shadcn@latest add"
+        "ui:add": "pnpm dlx shadcn@latest add",
+        "db:migrate": "pnpm dlx prisma migrate dev",
+        "db:studio": "pnpm dlx prisma studio",
+        "db:reset": "pnpm dlx prisma migrate reset",
+        "db:seed": "pnpm dlx prisma db seed"
+    },
+    "prisma": {
+        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
     },
     "dependencies": {
+        "@prisma/client": "6.4.1",
         "@radix-ui/react-dropdown-menu": "^2.1.6",
         "@radix-ui/react-slot": "^1.1.2",
         "class-variance-authority": "^0.7.1",
@@ -35,7 +43,9 @@
         "postcss": "^8",
         "prettier": "3.5.2",
         "prettier-plugin-tailwindcss": "^0.6.11",
+        "prisma": "^6.4.1",
         "tailwindcss": "^3.4.1",
+        "ts-node": "^10.9.2",
         "typescript": "^5"
     }
 }
