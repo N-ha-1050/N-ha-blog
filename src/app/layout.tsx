@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
-import { Header } from "@/components/header"
-import { ThemeProvider } from "@/components/theme-provider"
+import { Header } from "@/components/layout/header"
+import { ThemeProvider } from "@/components/theme/theme-provider"
 
 export const metadata: Metadata = {
     title: {
@@ -27,7 +27,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <Header />
-                    <main className="mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-8 py-16">
+                    <main className="mx-auto flex min-h-screen max-w-4xl flex-col justify-center px-8 py-16">
                         {children}
                     </main>
                 </ThemeProvider>
