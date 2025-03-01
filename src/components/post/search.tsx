@@ -10,6 +10,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
     const { replace } = useRouter()
     const handleSearch = useDebouncedCallback((query: string) => {
         const params = new URLSearchParams(searchParams)
+        params.delete("p")
         if (query) {
             params.set("q", query)
         } else {
@@ -17,18 +18,16 @@ export default function Search({ placeholder }: { placeholder: string }) {
         }
         replace(`${pathname}?${params.toString()}`)
     }, 700)
+    const query = searchParams.get("q")?.toString() || ""
 
     return (
         <div className="relative flex flex-1 flex-shrink-0">
-            <label htmlFor="search" className="sr-only">
-                Search
-            </label>
             <Input
                 placeholder={placeholder}
                 onChange={(e) => {
                     handleSearch(e.target.value)
                 }}
-                defaultValue={searchParams.get("q")?.toString()}
+                defaultValue={query}
             />
         </div>
     )
