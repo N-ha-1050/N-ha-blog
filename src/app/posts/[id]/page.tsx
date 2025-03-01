@@ -27,8 +27,8 @@ export default async function Post(props: { params: Promise<{ id: string }> }) {
             <h1 className="mb-4 text-4xl font-bold">{post.title}</h1>
             <TagList className="mb-4 text-lg" tags={post.tags} isLink />
             <div className="mb-8 md:flex md:gap-8">
-                <p>作成日 {createdAt.toLocaleDateString(undefined, options)}</p>
-                <p>更新日 {updatedAt.toLocaleDateString(undefined, options)}</p>
+                <p>作成日 {createdAt.toLocaleDateString("ja-JP", options)}</p>
+                <p>更新日 {updatedAt.toLocaleDateString("ja-JP", options)}</p>
             </div>
             <div className="prose prose-lg prose-slate dark:prose-invert">
                 {content}
