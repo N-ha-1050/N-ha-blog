@@ -2,6 +2,8 @@ import { markReact } from "@/lib/markdown"
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { TagList } from "@/components/tag/tag-list"
+import "katex/dist/katex.min.css"
+import "highlight.js/styles/base16/google-dark.min.css"
 
 const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -28,7 +30,7 @@ export default async function Post(props: { params: Promise<{ id: string }> }) {
                 <p>作成日 {createdAt.toLocaleDateString(undefined, options)}</p>
                 <p>更新日 {updatedAt.toLocaleDateString(undefined, options)}</p>
             </div>
-            <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
+            <div className="prose prose-lg prose-slate max-w-none dark:prose-invert">
                 {content}
             </div>
         </div>
