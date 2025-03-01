@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import { data } from "./data"
+import { data } from "./data.tmp"
 
 const { tags, posts } = data
 
