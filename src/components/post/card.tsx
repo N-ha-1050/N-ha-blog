@@ -1,7 +1,7 @@
 import Link from "next/link.js"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { TagList } from "@/components/tag/tag-list"
+import { TagList } from "@/components/tag/list"
 
 type PostProps = {
     post: {

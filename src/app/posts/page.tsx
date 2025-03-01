@@ -1,6 +1,6 @@
-import { PostList, PostListSkeleton } from "@/components/post/post-list"
+import { PostList, PostListSkeleton } from "@/components/post/list"
 import Search from "@/components/post/search"
-import { TagList } from "@/components/tag/tag-list"
+import { TagList } from "@/components/tag/list"
 import { Suspense } from "react"
 
 export default async function Posts(props: {

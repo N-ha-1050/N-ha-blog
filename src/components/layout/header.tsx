@@ -1,7 +1,7 @@
 import { Logo } from "@/components/layout/logo"
 import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"
-import { ModeToggle } from "@/components/theme/mode-toggle"
+import { ModeToggle } from "@/components/layout/mode-toggle"
 
 export function Header() {
     return (

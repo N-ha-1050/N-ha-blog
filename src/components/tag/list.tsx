@@ -1,5 +1,5 @@
 import { Tag } from "@prisma/client"
-import { TagBadge } from "@/components/tag/tag-badge"
+import { TagBadge } from "@/components/tag/badge"
 import { BadgeProps } from "../ui/badge"
 
 export function TagList({

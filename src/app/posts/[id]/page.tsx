@@ -1,7 +1,7 @@
 import { markReact } from "@/lib/markdown"
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
-import { TagList } from "@/components/tag/tag-list"
+import { TagList } from "@/components/tag/list"
 import "katex/dist/katex.min.css"
 import "highlight.js/styles/base16/google-dark.min.css"
 

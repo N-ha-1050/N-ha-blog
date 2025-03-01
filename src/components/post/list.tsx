@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { PostCard, PostCardSkeleton } from "@/components/post/post-card"
+import { PostCard, PostCardSkeleton } from "@/components/post/card"
 import { PostPagination, PostPaginationSkeleton } from "./pagination"
 import { Skeleton } from "../ui/skeleton"
 
