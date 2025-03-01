@@ -3,6 +3,8 @@ import { PostCard, PostCardSkeleton } from "@/components/post/post-card"
 
 export async function PostList() {
     const posts = await prisma.post.findMany({
+        // where: { isVisible: true },
+        orderBy: { createdAt: "desc" },
         include: { tags: true },
     })
     return (
