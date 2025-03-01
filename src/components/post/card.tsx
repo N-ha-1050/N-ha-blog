@@ -2,18 +2,9 @@ import Link from "next/link.js"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { TagList } from "@/components/tag/list"
+import { Post, Tag } from "@prisma/client"
 
-type PostProps = {
-    post: {
-        id: string
-        title: string
-        content: string
-        tags: { name: string }[]
-        isVisible: boolean
-    }
-}
-
-export function PostCard({ post }: PostProps) {
+export function PostCard({ post }: { post: Post & { tags: Tag[] } }) {
     return (
         <Link href={`/posts/${post.id}`}>
             <Card className="h-36 w-64 hover:border-foreground">
