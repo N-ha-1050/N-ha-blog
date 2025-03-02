@@ -37,6 +37,7 @@ export function PostPagination({ lastPage }: { lastPage: number }) {
         handleChangePage,
         700,
     )
+
     return (
         <Pagination>
             <PaginationContent>
@@ -153,87 +154,3 @@ export function PostPaginationSkeleton() {
         </Pagination>
     )
 }
-
-// export function _PostPagination({ lastPage }: { lastPage: number }) {
-//     const pathname = usePathname()
-//     const searchParams = useSearchParams()
-//     const { replace } = useRouter()
-//     const page = Number(searchParams.get("p")) || 1
-
-//     const createPageURL = (page: number) => {
-//         const params = new URLSearchParams(searchParams)
-//         if (1 < page && page <= lastPage) {
-//             params.set("p", page.toString())
-//         } else {
-//             params.delete("p")
-//         }
-//         return `${pathname}?${params.toString()}`
-//     }
-//     return (
-//         <Pagination>
-//             <PaginationContent>
-//                 {page > 2 && (
-//                     <PaginationItem>
-//                         <Button
-//                             onClick={() => {
-//                                 replace(createPageURL(1))
-//                             }}
-//                             variant="ghost"
-//                         >
-//                             1
-//                         </Button>
-//                     </PaginationItem>
-//                 )}
-//                 {page > 3 && (
-//                     <PaginationItem>
-//                         <PaginationEllipsis />
-//                     </PaginationItem>
-//                 )}
-//                 {page > 1 && (
-//                     <PaginationItem>
-//                         <Button
-//                             onClick={() => {
-//                                 replace(createPageURL(page - 1))
-//                             }}
-//                             variant="ghost"
-//                         >
-//                             {page - 1}
-//                         </Button>
-//                     </PaginationItem>
-//                 )}
-//                 <PaginationItem>
-//                     <Button variant="outline">{page}</Button>
-//                 </PaginationItem>
-//                 {page < lastPage && (
-//                     <PaginationItem>
-//                         <Button
-//                             onClick={() => {
-//                                 replace(createPageURL(page + 1))
-//                             }}
-//                             variant="ghost"
-//                         >
-//                             {page + 1}
-//                         </Button>
-//                     </PaginationItem>
-//                 )}
-//                 {page < lastPage - 2 && (
-//                     <PaginationItem>
-//                         <PaginationEllipsis />
-//                     </PaginationItem>
-//                 )}
-//                 {page < lastPage - 1 && (
-//                     <PaginationItem>
-//                         <Button
-//                             onClick={() => {
-//                                 replace(createPageURL(lastPage))
-//                             }}
-//                             variant="ghost"
-//                         >
-//                             {lastPage}
-//                         </Button>
-//                     </PaginationItem>
-//                 )}
-//             </PaginationContent>
-//         </Pagination>
-//     )
-// }

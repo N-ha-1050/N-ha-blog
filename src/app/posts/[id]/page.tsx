@@ -1,33 +1,30 @@
 import { markReact } from "@/lib/markdown"
-import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { TagList } from "@/components/tag/list"
+import { formatDate } from "@/lib/date"
+import { getPost } from "@/lib/fetch"
 import "katex/dist/katex.min.css"
 import "highlight.js/styles/base16/google-dark.min.css"
-import { formatDate } from "@/lib/date"
 
 type Props = { params: Promise<{ id: string }> }
 
-async function getPost(params: Props) {
-    const { id } = await params.params
-    if (!id || id.length !== 36) notFound()
-    const post = await prisma.post.findUnique({
-        where: { id, isVisible: true },
-        include: { tags: true },
-    })
-    if (!post) notFound()
-    return post
-}
+const validId = (id: string) => id && id.length === 36
 
-export async function generateMetadata(params: Props) {
-    const post = await getPost(params)
+export async function generateMetadata({ params }: Props) {
+    const { id } = await params
+    if (!validId(id)) return notFound()
+    const post = await getPost({ id })
+    if (!post) return notFound()
     return {
         title: post.title,
     }
 }
 
-export default async function Post(props: Props) {
-    const post = await getPost(props)
+export default async function Post({ params }: Props) {
+    const { id } = await params
+    if (!validId(id)) return notFound()
+    const post = await getPost({ id })
+    if (!post) return notFound()
     const createdAt = formatDate(post.createdAt)
     const updatedAt = formatDate(post.updatedAt)
     const content = await markReact(post.content)

@@ -1,7 +1,10 @@
 import { Logo } from "@/components/layout/logo"
-import Link from "next/link"
-import { buttonVariants } from "@/components/ui/button"
 import { ModeToggle } from "@/components/layout/mode-toggle"
+import { NavigationLink } from "./navigation-link"
+
+const navigationLinks: { url: string; displayName: string }[] = [
+    { url: "/posts", displayName: "Posts" },
+]
 
 export function Header() {
     return (
@@ -9,14 +12,13 @@ export function Header() {
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4">
                 <Logo />
                 <nav className="flex gap-4">
-                    <Link
-                        className={buttonVariants({
-                            variant: "ghost",
-                        })}
-                        href="/posts"
-                    >
-                        Posts
-                    </Link>
+                    {navigationLinks.map(({ url, displayName }) => (
+                        <NavigationLink
+                            key={displayName}
+                            href={url}
+                            text={displayName}
+                        />
+                    ))}
                     <ModeToggle />
                 </nav>
             </div>

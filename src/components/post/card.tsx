@@ -31,16 +31,18 @@ export function PostCard({ post }: { post: Post & { tags: Tag[] } }) {
 
 export function PostCardSkeleton() {
     return (
-        <Card className="h-36 w-64 animate-pulse">
+        <Card className="flex h-36 w-64 flex-col justify-between">
             <CardHeader>
                 <CardTitle className="truncate">
-                    <Skeleton className="h-4" />
+                    <Skeleton className="h-4 w-full" />
                 </CardTitle>
             </CardHeader>
-            <CardContent>
-                <Skeleton className="mb-2 h-4" />
-                <Skeleton className="h-4" />
+            <CardContent className="pb-2">
+                <Skeleton className="h-4 w-full" />
             </CardContent>
+            <CardFooter>
+                <Skeleton className="h-4 w-full" />
+            </CardFooter>
         </Card>
     )
 }

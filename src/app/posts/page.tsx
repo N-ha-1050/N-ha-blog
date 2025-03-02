@@ -1,6 +1,7 @@
 import { PostList, PostListSkeleton } from "@/components/post/list"
 import Search from "@/components/post/search"
 import { TagList } from "@/components/tag/list"
+import { getPosts, getPostsCount } from "@/lib/fetch"
 import { Metadata } from "next"
 import { Suspense } from "react"
 
@@ -9,20 +10,20 @@ export const metadata: Metadata = {
     description: "記事一覧ページです。",
 }
 
-export default async function Posts(props: {
-    searchParams?: Promise<{
+export default async function Posts({
+    searchParams,
+}: {
+    searchParams: Promise<{
         q?: string | string[]
         p?: string | string[]
         t?: string | string[]
     }>
 }) {
-    const searchParams = await props.searchParams
-    const q = searchParams?.q
+    const { q, p, t } = await searchParams
     const query = Array.isArray(q) ? q[0] : (q ?? "")
-    const p = searchParams?.p
     const page = Number(Array.isArray(p) ? p[0] : p) || 1
-    const t = searchParams?.t
     const tags = Array.isArray(t) ? t : t ? [t] : []
+
     return (
         <div className="flex flex-col items-center gap-4">
             <h1 className="mb-8 text-4xl font-bold">記事一覧</h1>
@@ -32,8 +33,24 @@ export default async function Posts(props: {
                 className="text-lg"
             />
             <Suspense key={query + page + tags} fallback={<PostListSkeleton />}>
-                <PostList page={page} query={query} tags={tags} />
+                <PostsListWithFetch query={query} page={page} tags={tags} />
             </Suspense>
         </div>
     )
+}
+
+async function PostsListWithFetch({
+    query,
+    page,
+    tags,
+}: {
+    query: string
+    page: number
+    tags: string[]
+}) {
+    const [posts, postsCount] = await Promise.all([
+        getPosts({ page, query, tags }),
+        getPostsCount({ query, tags }),
+    ])
+    return <PostList posts={posts} postsCount={postsCount} />
 }
