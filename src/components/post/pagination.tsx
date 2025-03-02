@@ -13,9 +13,9 @@ import {
     ChevronFirst,
     ChevronLast,
 } from "lucide-react"
-import { Input } from "../ui/input"
+import { Input } from "@/components/ui/input"
 import { useDebouncedCallback } from "use-debounce"
-import { Skeleton } from "../ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export function PostPagination({ lastPage }: { lastPage: number }) {
     const searchParams = useSearchParams()
