@@ -7,9 +7,15 @@ type GetPosts = {
     page: number
     query: string
     tags: string[]
+    isAdmin?: boolean
 }
 
-export const getPosts = async ({ page, query, tags }: GetPosts) => {
+export const getPosts = async ({
+    page,
+    query,
+    tags,
+    isAdmin = false,
+}: GetPosts) => {
     return await prisma.post.findMany({
         where: {
             AND: [
@@ -29,7 +35,7 @@ export const getPosts = async ({ page, query, tags }: GetPosts) => {
                         },
                     ],
                 },
-                { isVisible: true },
+                { isVisible: isAdmin ? undefined : true },
                 tags.length > 0
                     ? {
                           tags: {
@@ -51,6 +57,7 @@ export const getPosts = async ({ page, query, tags }: GetPosts) => {
 export const getPostsCount = async ({
     query,
     tags,
+    isAdmin = false,
 }: Omit<GetPosts, "page">) => {
     return await prisma.post.count({
         where: {
@@ -71,7 +78,7 @@ export const getPostsCount = async ({
                         },
                     ],
                 },
-                { isVisible: true },
+                { isVisible: isAdmin ? undefined : true },
                 tags.length > 0
                     ? {
                           tags: {
@@ -88,11 +95,12 @@ export const getPostsCount = async ({
 
 type GetPost = {
     id: string
+    isAdmin?: boolean
 }
 
-export const getPost = async ({ id }: GetPost) => {
+export const getPost = async ({ id, isAdmin = false }: GetPost) => {
     return await prisma.post.findUnique({
-        where: { id, isVisible: true },
+        where: { id, isVisible: isAdmin ? undefined : true },
         include: { tags: true },
     })
 }

@@ -5,7 +5,7 @@ import { object, string } from "zod"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "@/lib/prisma"
 import { authConfig } from "@/lib/auth.config"
-import { getUserWithPassword } from "@/lib/fetch"
+import { getUserWithPassword } from "@/lib/db"
 import Google from "next-auth/providers/google"
 
 export const signInSchema = object({

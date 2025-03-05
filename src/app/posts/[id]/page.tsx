@@ -2,9 +2,10 @@ import { markReact } from "@/lib/markdown"
 import { notFound } from "next/navigation"
 import { TagList } from "@/components/tag/list"
 import { formatDate } from "@/lib/date"
-import { getPost } from "@/lib/fetch"
+import { getPost } from "@/lib/db"
 import "katex/dist/katex.min.css"
 import "highlight.js/styles/base16/google-dark.min.css"
+import { auth } from "@/lib/auth"
 
 type Props = { params: Promise<{ id: string }> }
 
@@ -13,7 +14,9 @@ const validId = (id: string) => id && id.length === 36
 export async function generateMetadata({ params }: Props) {
     const { id } = await params
     if (!validId(id)) return notFound()
-    const post = await getPost({ id })
+    const session = await auth()
+    const isAdmin = session?.user?.isAdmin ?? false
+    const post = await getPost({ id, isAdmin })
     if (!post) return notFound()
     return {
         title: post.title,
@@ -23,7 +26,9 @@ export async function generateMetadata({ params }: Props) {
 export default async function Post({ params }: Props) {
     const { id } = await params
     if (!validId(id)) return notFound()
-    const post = await getPost({ id })
+    const session = await auth()
+    const isAdmin = session?.user?.isAdmin ?? false
+    const post = await getPost({ id, isAdmin })
     if (!post) return notFound()
     const createdAt = formatDate(post.createdAt)
     const updatedAt = formatDate(post.updatedAt)

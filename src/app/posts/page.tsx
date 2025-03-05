@@ -1,9 +1,10 @@
 import { PostList, PostListSkeleton } from "@/components/post/list"
 import Search from "@/components/post/search"
 import { TagList } from "@/components/tag/list"
-import { getPosts, getPostsCount } from "@/lib/fetch"
+import { getPosts, getPostsCount } from "@/lib/db"
 import { Metadata } from "next"
 import { Suspense } from "react"
+import { auth } from "@/lib/auth"
 
 export const metadata: Metadata = {
     title: "記事一覧",
@@ -19,6 +20,8 @@ export default async function Posts({
         t?: string | string[]
     }>
 }) {
+    const session = await auth()
+    const isAdmin = session?.user?.isAdmin ?? false
     const { q, p, t } = await searchParams
     const query = Array.isArray(q) ? q[0] : (q ?? "")
     const page = Number(Array.isArray(p) ? p[0] : p) || 1
@@ -33,7 +36,12 @@ export default async function Posts({
                 className="text-lg"
             />
             <Suspense key={query + page + tags} fallback={<PostListSkeleton />}>
-                <PostsListWithFetch query={query} page={page} tags={tags} />
+                <PostsListWithFetch
+                    query={query}
+                    page={page}
+                    tags={tags}
+                    isAdmin={isAdmin}
+                />
             </Suspense>
         </div>
     )
@@ -43,14 +51,16 @@ async function PostsListWithFetch({
     query,
     page,
     tags,
+    isAdmin,
 }: {
     query: string
     page: number
     tags: string[]
+    isAdmin: boolean
 }) {
     const [posts, postsCount] = await Promise.all([
-        getPosts({ page, query, tags }),
-        getPostsCount({ query, tags }),
+        getPosts({ page, query, tags, isAdmin }),
+        getPostsCount({ query, tags, isAdmin }),
     ])
     return <PostList posts={posts} postsCount={postsCount} />
 }

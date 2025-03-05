@@ -1,5 +1,4 @@
 import { SignIn } from "@/components/auth/sign-in"
-import { Suspense } from "react"
 
 export default async function Login(props: {
     searchParams: Promise<{
