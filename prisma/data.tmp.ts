@@ -9,9 +9,18 @@ type Post = {
     updated_at: string
 }
 
+type User = {
+    name: string
+    email: string
+    password: string
+    is_active: boolean
+    is_admin: boolean
+}
+
 export const data: {
     tags: Tag[]
     posts: Post[]
+    users: User[]
 } = {
     tags: [{ name: "test" }],
     posts: [
@@ -23,6 +32,15 @@ export const data: {
             created_at: "2022-03-25 14:52",
             updated_at: "2023-05-12 22:57",
             tags: [{ name: "test" }],
+        },
+    ],
+    users: [
+        {
+            name: "User",
+            email: "user@nextmail.com",
+            password: "123456",
+            is_active: true,
+            is_admin: false,
         },
     ],
 }

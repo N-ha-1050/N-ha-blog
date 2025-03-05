@@ -4,6 +4,7 @@ import { NavigationLink } from "./navigation-link"
 
 const navigationLinks: { url: string; displayName: string }[] = [
     { url: "/posts", displayName: "Posts" },
+    { url: "/login", displayName: "For Developers" },
 ]
 
 export function Header() {
