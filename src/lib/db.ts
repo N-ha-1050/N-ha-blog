@@ -1,7 +1,8 @@
+"use server"
+
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
-
-export const POSTS_PER_PAGE = 12
+import { POSTS_PER_PAGE } from "@/lib/config"
 
 type GetPosts = {
     page: number
@@ -102,6 +103,67 @@ export const getPost = async ({ id, isAdmin = false }: GetPost) => {
     return await prisma.post.findUnique({
         where: { id, isVisible: isAdmin ? undefined : true },
         include: { tags: true },
+    })
+}
+
+type CreatePost = {
+    title: string
+    content: string
+    tags?: { name: string }[]
+    isVisible?: boolean
+}
+
+export const createPost = async ({
+    title,
+    content,
+    tags,
+    isVisible,
+}: CreatePost) => {
+    return await prisma.post.create({
+        data: {
+            title,
+            content,
+            tags: {
+                connectOrCreate: tags?.map((tag) => ({
+                    create: tag,
+                    where: tag,
+                })),
+            },
+            isVisible,
+        },
+        include: { tags: true },
+    })
+}
+
+type UpdatePost = {
+    id: string
+    title: string
+    content: string
+    tags?: { name: string }[]
+    isVisible?: boolean
+}
+
+export const updatePost = async ({
+    id,
+    title,
+    content,
+    tags,
+    isVisible,
+}: UpdatePost) => {
+    return await prisma.post.update({
+        where: { id },
+        data: {
+            title,
+            content,
+            tags: {
+                set: [],
+                connectOrCreate: tags?.map((tag) => ({
+                    create: tag,
+                    where: tag,
+                })),
+            },
+            isVisible,
+        },
     })
 }
 

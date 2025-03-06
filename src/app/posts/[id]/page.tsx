@@ -6,6 +6,9 @@ import { getPost } from "@/lib/db"
 import "katex/dist/katex.min.css"
 import "highlight.js/styles/base16/google-dark.min.css"
 import { auth } from "@/lib/auth"
+import Link from "next/link"
+import { buttonVariants } from "@/components/ui/button"
+import { Edit } from "lucide-react"
 
 type Props = { params: Promise<{ id: string }> }
 
@@ -36,6 +39,15 @@ export default async function Post({ params }: Props) {
     return (
         <div>
             <h1 className="mb-4 text-4xl font-bold">{post.title}</h1>
+            {isAdmin && (
+                <Link
+                    href={`/admin/editor?id=${post.id}`}
+                    className={`${buttonVariants()} mb-4`}
+                >
+                    <Edit />
+                    Edit
+                </Link>
+            )}
             <TagList className="mb-4 text-lg" tags={post.tags} isLink />
             <div className="mb-8 md:flex md:gap-8">
                 <p>作成日 {createdAt}</p>

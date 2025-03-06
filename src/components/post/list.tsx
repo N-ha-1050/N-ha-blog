@@ -2,7 +2,7 @@ import { PostCard, PostCardSkeleton } from "@/components/post/card"
 import { PostPagination, PostPaginationSkeleton } from "./pagination"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Post, Tag } from "@prisma/client"
-import { POSTS_PER_PAGE } from "@/lib/db"
+import { POSTS_PER_PAGE } from "@/lib/config"
 
 export async function PostList({
     posts,
