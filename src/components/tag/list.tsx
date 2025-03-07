@@ -5,9 +5,11 @@ import { BadgeProps } from "@/components/ui/badge"
 export function TagList({
     tags,
     isLink = false,
+    tagClick,
     ...props
 }: {
     isLink?: boolean
+    tagClick?: (tag: Tag) => void
     tags: Tag[]
 } & BadgeProps) {
     return (
@@ -18,6 +20,9 @@ export function TagList({
                     key={tag.name}
                     tag={tag}
                     isLink={isLink}
+                    onClick={
+                        tagClick && !isLink ? () => tagClick(tag) : undefined
+                    }
                     {...props}
                 />
             ))}

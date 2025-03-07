@@ -58,22 +58,22 @@ export function CreateForm({ message: defaultMessage, post, name }: Props) {
         setTags(tags)
         setVisible(isVisible)
     }
-    const alerts: { title: string; description: ReactNode }[] = []
-    if (message) {
-        alerts.push({ title: "Message", description: message })
-    }
-    alerts.push({
-        title: "User Name",
-        description: (
-            <Link href="/auth" className={buttonVariants({ variant: "link" })}>
-                {name}
-            </Link>
-        ),
-    })
-    if (post?.id) {
-        alerts.push({
-            title: "Post Detail",
+    const alerts: { title: string; description?: ReactNode }[] = [
+        { title: "Message", description: message },
+        {
+            title: "User Name",
             description: (
+                <Link
+                    href="/auth"
+                    className={buttonVariants({ variant: "link" })}
+                >
+                    {name}
+                </Link>
+            ),
+        },
+        {
+            title: "Post Detail",
+            description: post?.id ? (
                 <>
                     <Link
                         href={`/posts/${post.id}`}
@@ -88,17 +88,20 @@ export function CreateForm({ message: defaultMessage, post, name }: Props) {
                         Create New Post
                     </Link>
                 </>
-            ),
-        })
-    }
+            ) : undefined,
+        },
+    ]
     return (
         <div className="grid w-full grid-cols-4 gap-4">
-            {alerts.map(({ title, description }) => (
-                <Alert className="col-span-2 col-start-2" key={title}>
-                    <AlertTitle>{title}</AlertTitle>
-                    <AlertDescription>{description}</AlertDescription>
-                </Alert>
-            ))}
+            {alerts.map(
+                ({ title, description }) =>
+                    description && (
+                        <Alert className="col-span-2 col-start-2" key={title}>
+                            <AlertTitle>{title}</AlertTitle>
+                            <AlertDescription>{description}</AlertDescription>
+                        </Alert>
+                    ),
+            )}
             <div className="col-span-3 self-center">
                 <TitleEditor title={title} setTitle={setTitle} />
             </div>
