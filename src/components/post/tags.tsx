@@ -66,7 +66,7 @@ export default function Tags() {
                     }}
                     className="text-lg"
                 />
-                <DialogFooter className="justify-start">
+                <DialogFooter>
                     <DialogClose asChild>
                         <Button type="submit" onClick={handleChange}>
                             OK
