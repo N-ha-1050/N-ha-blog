@@ -94,8 +94,15 @@ export const getPostsCount = async ({
     })
 }
 
-export const getAllPosts = async () => {
+export const getAllPosts = async ({
+    isAdmin = false,
+}: {
+    isAdmin: boolean
+}) => {
     // ONLY FOR ADMIN!!!
+    if (!isAdmin) {
+        throw new Error("Unauthorized")
+    }
     return await prisma.post.findMany({
         include: { tags: true },
         orderBy: { createdAt: "asc" },
@@ -119,6 +126,7 @@ type CreatePost = {
     content: string
     tags?: { name: string }[]
     isVisible?: boolean
+    isAdmin: boolean
 }
 
 export const createPost = async ({
@@ -126,8 +134,12 @@ export const createPost = async ({
     content,
     tags,
     isVisible,
+    isAdmin = false,
 }: CreatePost) => {
     // ONLY FOR ADMIN!!!
+    if (!isAdmin) {
+        throw new Error("Unauthorized")
+    }
     return await prisma.post.create({
         data: {
             title,
@@ -150,6 +162,7 @@ type UpdatePost = {
     content: string
     tags?: { name: string }[]
     isVisible?: boolean
+    isAdmin: boolean
 }
 
 export const updatePost = async ({
@@ -158,8 +171,12 @@ export const updatePost = async ({
     content,
     tags,
     isVisible,
+    isAdmin = false,
 }: UpdatePost) => {
     // ONLY FOR ADMIN!!!
+    if (!isAdmin) {
+        throw new Error("Unauthorized")
+    }
     return await prisma.post.update({
         where: { id },
         data: {

@@ -14,27 +14,34 @@ export default async function Editor({
     const { id } = await searchParams
     const session = await auth()
     if (!session?.user?.isAdmin) notFound()
+    const user: { name: string; isAdmin: boolean } = {
+        name: session.user.name ?? "Unknown",
+        isAdmin: session.user.isAdmin ?? false,
+    }
     return (
         <div className="flex flex-col items-center gap-4">
             <h1 className="mb-8 text-4xl font-bold">Editor</h1>
             <Suspense fallback="Loading...">
-                <EditorWithFetch
-                    id={id}
-                    name={session.user.name || "Unknown"}
-                />
+                <EditorWithFetch id={id} user={user} />
             </Suspense>
         </div>
     )
 }
 
-async function EditorWithFetch({ id, name }: { id?: string; name: string }) {
-    if (!id) return <CreateForm name={name} />
+async function EditorWithFetch({
+    id,
+    user,
+}: {
+    id?: string
+    user: { name: string; isAdmin: boolean }
+}) {
+    if (!id) return <CreateForm user={user} />
     if (!validId(id))
-        return <CreateForm name={name} message={`Invalid ID: ${id}`} />
+        return <CreateForm user={user} message={`Invalid ID: ${id}`} />
     const session = await auth()
     const isAdmin = session?.user?.isAdmin
     const post = await getPost({ id, isAdmin })
     if (!post)
-        return <CreateForm name={name} message={`Post not found: ${id}`} />
-    return <CreateForm name={name} post={post} />
+        return <CreateForm user={user} message={`Post not found: ${id}`} />
+    return <CreateForm user={user} post={post} />
 }

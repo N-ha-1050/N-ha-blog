@@ -1,5 +1,6 @@
 import { DownloadLink } from "@/components/post/download-link"
 import { Textarea } from "@/components/ui/textarea"
+import { auth } from "@/lib/auth"
 import { getAllPosts } from "@/lib/db"
 import { Suspense } from "react"
 
@@ -14,8 +15,10 @@ export default async function Json() {
     )
 }
 
-export async function JsonWithFetch() {
-    const posts = await getAllPosts()
+async function JsonWithFetch() {
+    const session = await auth()
+    const isAdmin = session?.user?.isAdmin ?? false
+    const posts = await getAllPosts({ isAdmin })
     return (
         <>
             <Textarea

@@ -7,7 +7,7 @@ import { TagsAdder } from "@/components/editor/tags-adder"
 import { TagsViewer } from "@/components/editor/tags-viewer"
 import { ContentViewer } from "@/components/editor/content-viewer"
 import { ContentTextarea } from "@/components/editor/content-textarea"
-import { Button, buttonVariants } from "../ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { createPost, updatePost } from "@/lib/db"
 import { Post, Tag } from "@prisma/client"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -16,10 +16,11 @@ import Link from "next/link"
 type Props = {
     message?: string
     post?: Post & { tags: Tag[] }
-    name: string
+    user: { name: string; isAdmin: boolean }
 }
 
-export function CreateForm({ message: defaultMessage, post, name }: Props) {
+export function CreateForm({ message: defaultMessage, post, user }: Props) {
+    const { name, isAdmin } = user
     const [title, setTitle] = useState(post?.title || "")
     const [content, setContent] = useState(post?.content || "")
     const [isVisible, setVisible] = useState(post?.isVisible || false)
@@ -178,6 +179,7 @@ export function CreateForm({ message: defaultMessage, post, name }: Props) {
                                 content,
                                 tags: tags.map((name) => ({ name })),
                                 isVisible,
+                                isAdmin,
                             })
                             console.dir(updatedPost, { depth: null })
                             setMessage(`Post updated. (id: ${updatedPost.id})`)
@@ -188,6 +190,7 @@ export function CreateForm({ message: defaultMessage, post, name }: Props) {
                                 content,
                                 tags: tags.map((name) => ({ name })),
                                 isVisible,
+                                isAdmin,
                             })
                             console.dir(createdPost, { depth: null })
                             setMessage(`Post created. (id: ${createdPost.id})`)

@@ -1,4 +1,4 @@
-import { TagList } from "../tag/list"
+import { TagList } from "@/components/tag/list"
 
 type Props = {
     tags: string[]
