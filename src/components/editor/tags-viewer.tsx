@@ -1,4 +1,3 @@
-import { TagBadge } from "@/components/tag/badge"
 import { TagList } from "../tag/list"
 
 type Props = {

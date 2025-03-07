@@ -96,7 +96,10 @@ export const getPostsCount = async ({
 
 export const getAllPosts = async () => {
     // ONLY FOR ADMIN!!!
-    return await prisma.post.findMany({ include: { tags: true } })
+    return await prisma.post.findMany({
+        include: { tags: true },
+        orderBy: { createdAt: "asc" },
+    })
 }
 
 type GetPost = {

@@ -5,6 +5,7 @@ import { getPosts, getPostsCount } from "@/lib/db"
 import { Metadata } from "next"
 import { Suspense } from "react"
 import { auth } from "@/lib/auth"
+import Tags from "@/components/post/tags"
 
 export const metadata: Metadata = {
     title: "記事一覧",
@@ -30,7 +31,10 @@ export default async function Posts({
     return (
         <div className="flex flex-col items-center gap-4">
             <h1 className="mb-8 text-4xl font-bold">記事一覧</h1>
-            <Search placeholder="検索" />
+            <div className="flex items-center gap-2">
+                <Search placeholder="検索" />
+                <Tags />
+            </div>
             <TagList
                 tags={tags.map((name) => ({ name }))}
                 className="text-lg"

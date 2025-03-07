@@ -9,7 +9,13 @@ export default function Admin() {
                 href="/admin/editor"
                 className={buttonVariants({ variant: "link" })}
             >
-                編集ページ
+                Editor
+            </Link>
+            <Link
+                href="/admin/json"
+                className={buttonVariants({ variant: "link" })}
+            >
+                Save Posts as JSON
             </Link>
         </div>
     )
