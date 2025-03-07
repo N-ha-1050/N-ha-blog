@@ -94,6 +94,11 @@ export const getPostsCount = async ({
     })
 }
 
+export const getAllPosts = async () => {
+    // ONLY FOR ADMIN!!!
+    return await prisma.post.findMany({ include: { tags: true } })
+}
+
 type GetPost = {
     id: string
     isAdmin?: boolean
@@ -119,6 +124,7 @@ export const createPost = async ({
     tags,
     isVisible,
 }: CreatePost) => {
+    // ONLY FOR ADMIN!!!
     return await prisma.post.create({
         data: {
             title,
@@ -150,6 +156,7 @@ export const updatePost = async ({
     tags,
     isVisible,
 }: UpdatePost) => {
+    // ONLY FOR ADMIN!!!
     return await prisma.post.update({
         where: { id },
         data: {

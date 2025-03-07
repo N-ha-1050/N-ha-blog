@@ -17,7 +17,7 @@ export default async function Editor({
     return (
         <div className="flex flex-col items-center gap-4">
             <h1 className="mb-8 text-4xl font-bold">Editor</h1>
-            <Suspense fallback="loading...">
+            <Suspense fallback="Loading...">
                 <EditorWithFetch
                     id={id}
                     name={session.user.name || "Unknown"}
