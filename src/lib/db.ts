@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 import { POSTS_PER_PAGE } from "@/lib/config"
 
-type GetPosts = {
+export type GetPosts = {
     page: number
     query: string
     tags: string[]
@@ -55,11 +55,13 @@ export const getPosts = async ({
     })
 }
 
+export type GetPostsCount = Omit<GetPosts, "page">
+
 export const getPostsCount = async ({
     query,
     tags,
     isAdmin = false,
-}: Omit<GetPosts, "page">) => {
+}: GetPostsCount) => {
     return await prisma.post.count({
         where: {
             AND: [
@@ -94,11 +96,11 @@ export const getPostsCount = async ({
     })
 }
 
-export const getAllPosts = async ({
-    isAdmin = false,
-}: {
-    isAdmin: boolean
-}) => {
+export type GetAllPosts = {
+    isAdmin: true // IT MUST BE TRUE
+}
+
+export const getAllPosts = async ({ isAdmin }: GetAllPosts) => {
     // ONLY FOR ADMIN!!!
     if (!isAdmin) {
         throw new Error("Unauthorized")
@@ -109,7 +111,7 @@ export const getAllPosts = async ({
     })
 }
 
-type GetPost = {
+export type GetPost = {
     id: string
     isAdmin?: boolean
 }
@@ -121,12 +123,12 @@ export const getPost = async ({ id, isAdmin = false }: GetPost) => {
     })
 }
 
-type CreatePost = {
+export type CreatePost = {
     title: string
     content: string
     tags?: { name: string }[]
     isVisible?: boolean
-    isAdmin: boolean
+    isAdmin: true // IT MUST BE TRUE
 }
 
 export const createPost = async ({
@@ -134,7 +136,7 @@ export const createPost = async ({
     content,
     tags,
     isVisible,
-    isAdmin = false,
+    isAdmin,
 }: CreatePost) => {
     // ONLY FOR ADMIN!!!
     if (!isAdmin) {
@@ -156,13 +158,13 @@ export const createPost = async ({
     })
 }
 
-type UpdatePost = {
+export type UpdatePost = {
     id: string
     title: string
     content: string
     tags?: { name: string }[]
     isVisible?: boolean
-    isAdmin: boolean
+    isAdmin: true // IT MUST BE TRUE
 }
 
 export const updatePost = async ({
@@ -171,7 +173,7 @@ export const updatePost = async ({
     content,
     tags,
     isVisible,
-    isAdmin = false,
+    isAdmin,
 }: UpdatePost) => {
     // ONLY FOR ADMIN!!!
     if (!isAdmin) {
@@ -194,13 +196,15 @@ export const updatePost = async ({
     })
 }
 
+export type GetUserWithPassword = {
+    email: string
+    password: string
+}
+
 export const getUserWithPassword = async ({
     email,
     password,
-}: {
-    email: string
-    password: string
-}) => {
+}: GetUserWithPassword) => {
     const userWithHashedPassword = await prisma.user.findUnique({
         where: { email, isActive: true },
     })
@@ -223,4 +227,25 @@ export const getUserWithPassword = async ({
         return null
     }
     return user
+}
+
+export const changeNameWithPassword = async ({
+    email,
+    password,
+    name,
+}: {
+    email: string
+    password: string
+    name: string
+}) => {
+    const user = await getUserWithPassword({ email, password })
+
+    if (!user) {
+        return null
+    }
+
+    return await prisma.user.update({
+        where: { email },
+        data: { name },
+    })
 }

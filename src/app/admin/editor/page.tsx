@@ -1,4 +1,4 @@
-import { CreateForm } from "@/components/editor/create-form"
+import { Form } from "@/components/editor/form"
 import { auth } from "@/lib/auth"
 import { getPost } from "@/lib/db"
 import { notFound } from "next/navigation"
@@ -13,37 +13,29 @@ export default async function Editor({
 }: {
     searchParams: Promise<{ id?: string }>
 }) {
-    const { id } = await searchParams
+    // User認証
     const session = await auth()
-    if (!session?.user?.isAdmin) notFound()
-    const user: { name: string; isAdmin: boolean } = {
-        name: session.user.name ?? "Unknown",
-        isAdmin: session.user.isAdmin ?? false,
-    }
+    const isAdmin = session?.user.isAdmin
+    if (!isAdmin) notFound()
+
+    // 個別記事取得
+    const { id } = await searchParams
+    const rowPost = id && validId(id) ? await getPost({ id, isAdmin }) : null
+    const post = rowPost
+        ? { ...rowPost, tags: rowPost.tags.map((tag) => tag.name) }
+        : null
+
     return (
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex size-full flex-col items-center gap-4">
             <h1 className="mb-8 text-4xl font-bold">Editor</h1>
-            <Suspense fallback="Loading...">
-                <EditorWithFetch id={id} user={user} />
+            <Suspense>
+                <Form
+                    post={post}
+                    id={rowPost?.id}
+                    isAdmin={isAdmin}
+                    userName={session.user.name ?? "Unknown"}
+                />
             </Suspense>
         </div>
     )
-}
-
-async function EditorWithFetch({
-    id,
-    user,
-}: {
-    id?: string
-    user: { name: string; isAdmin: boolean }
-}) {
-    if (!id) return <CreateForm user={user} />
-    if (!validId(id))
-        return <CreateForm user={user} message={`Invalid ID: ${id}`} />
-    const session = await auth()
-    const isAdmin = session?.user?.isAdmin
-    const post = await getPost({ id, isAdmin })
-    if (!post)
-        return <CreateForm user={user} message={`Post not found: ${id}`} />
-    return <CreateForm user={user} post={post} />
 }

@@ -1,3 +1,4 @@
+import { ChangeName } from "@/components/auth/change-name"
 import { SignOut } from "@/components/auth/sign-out"
 import { buttonVariants } from "@/components/ui/button"
 import { auth } from "@/lib/auth"
@@ -6,26 +7,26 @@ import { redirect } from "next/navigation"
 
 export default async function Auth() {
     const session = await auth()
-    // console.log("In Auth page")
-    // console.log("session", session)
     if (!session?.user) {
         redirect("/login")
     }
     const user = session.user
     return (
         <div className="flex flex-col items-center gap-4">
-            <h1 className="mb-8 text-4xl font-bold">アカウント</h1>
-            <h2>ようこそ {user.name ?? "Unknown"} さん</h2>
-            {user.isAdmin && (
-                <Link
-                    href="/admin"
-                    className={buttonVariants({ variant: "link" })}
-                >
-                    管理ページへ
-                </Link>
-            )}
-            <div>メールアドレス: {user.email}</div>
-            <SignOut />
+            <h1 className="mb-8 text-4xl font-bold">ユーザー情報</h1>
+            <h2 className="text-xl">ようこそ {user.name ?? "Unknown"} さん</h2>
+            <div className="flex gap-2">
+                <ChangeName
+                    name={user.name ?? "Unknown"}
+                    email={user.email ?? ""}
+                />
+                {user.isAdmin && (
+                    <Link href="/admin" className={buttonVariants()}>
+                        管理ページ
+                    </Link>
+                )}
+                <SignOut />
+            </div>
         </div>
     )
 }
