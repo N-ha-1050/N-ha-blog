@@ -8,7 +8,7 @@ import "highlight.js/styles/base16/google-dark.min.css"
 import { auth } from "@/lib/auth"
 import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"
-import { Edit } from "lucide-react"
+import { Edit, Globe, Lock } from "lucide-react"
 
 type Props = { params: Promise<{ id: string }> }
 
@@ -40,13 +40,16 @@ export default async function Post({ params }: Props) {
         <div>
             <h1 className="mb-4 text-4xl font-bold">{post.title}</h1>
             {isAdmin && (
-                <Link
-                    href={`/admin/editor?id=${post.id}`}
-                    className={`${buttonVariants()} mb-4`}
-                >
-                    <Edit />
-                    Edit
-                </Link>
+                <div className="mb-4 flex items-center gap-4">
+                    {post.isVisible ? <Globe /> : <Lock />}
+                    <Link
+                        href={`/admin/editor?id=${post.id}`}
+                        className={buttonVariants()}
+                    >
+                        <Edit />
+                        Edit
+                    </Link>
+                </div>
             )}
             <TagList className="mb-4 text-lg" tags={post.tags} isLink />
             <div className="mb-8 md:flex md:gap-8">
