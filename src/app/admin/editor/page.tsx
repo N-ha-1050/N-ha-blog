@@ -5,9 +5,14 @@ import { notFound } from "next/navigation"
 import { Suspense } from "react"
 import "katex/dist/katex.min.css"
 import "highlight.js/styles/base16/google-dark.min.css"
+import { Metadata } from "next"
 
 const validId = (id: string) => id && id.length === 36
 
+export const metadata: Metadata = {
+    title: "Editor",
+    description: "管理者用のエディターページです。",
+}
 export default async function Editor({
     searchParams,
 }: {

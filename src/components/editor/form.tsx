@@ -72,7 +72,7 @@ export function Form({ id, isAdmin, post, userName }: Props) {
                     isVisible,
                     isAdmin,
                 })
-                console.dir(updatedPost, { depth: null })
+                // console.dir(updatedPost, { depth: null })
                 return `Post updated. (id: ${updatedPost.id})`
             } catch (error) {
                 return `Failed to update post. (id: ${id})\nerror: ${error}`
@@ -87,7 +87,7 @@ export function Form({ id, isAdmin, post, userName }: Props) {
                     isVisible,
                     isAdmin,
                 })
-                console.dir(createdPost, { depth: null })
+                // console.dir(createdPost, { depth: null })
                 return `Post created. (id: ${createdPost.id})`
             } catch (error) {
                 return `Failed to create post.\nerror: ${error}`
