@@ -2,9 +2,14 @@ import { ChangeName } from "@/components/auth/change-name"
 import { SignOut } from "@/components/auth/sign-out"
 import { buttonVariants } from "@/components/ui/button"
 import { auth } from "@/lib/auth"
+import { Metadata } from "next"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 
+export const metadata: Metadata = {
+    title: "ユーザー情報",
+    description: "ユーザー情報ページです。",
+}
 export default async function Auth() {
     const session = await auth()
     if (!session?.user) {
