@@ -9,10 +9,10 @@ import { TagList } from "@/components/tag/list"
 import { Textarea } from "@/components/ui/textarea"
 import { markReact } from "@/lib/markdown"
 import { useDebouncedCallback } from "use-debounce"
-import { Button, buttonVariants } from "../ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { createPost, updatePost } from "@/lib/db"
 import Link from "next/link"
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 type Props = {
     post: DraftPost | null

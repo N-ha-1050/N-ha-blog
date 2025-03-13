@@ -1,5 +1,8 @@
 import { PostCard, PostCardSkeleton } from "@/components/post/card"
-import { PostPagination, PostPaginationSkeleton } from "./pagination"
+import {
+    PostPagination,
+    PostPaginationSkeleton,
+} from "@/components/post/pagination"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Post, Tag } from "@prisma/client"
 import { POSTS_PER_PAGE } from "@/lib/config"

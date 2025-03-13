@@ -1,7 +1,7 @@
 "use server"
 
-import { changeNameWithPassword } from "./db"
-import { signOut } from "./auth"
+import { changeNameWithPassword } from "@/lib/db"
+import { signOut } from "@/lib/auth"
 
 export const changeName = async (formData: FormData) => {
     const name = formData.get("name")?.toString() || ""
