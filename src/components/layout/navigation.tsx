@@ -35,6 +35,7 @@ export function Navigation({
                             variant: "ghost",
                             size: "icon",
                         })}
+                        onClick={() => setOpen(!isOpen)}
                     >
                         <User />
                     </Link>
