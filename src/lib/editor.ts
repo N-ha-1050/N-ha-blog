@@ -30,7 +30,6 @@ export function loadDraft(prefix: string) {
                 .filter((tag) => tag) ?? defaultTags,
         isVisible: localStorage.getItem(`${prefix}-visible`) === "true",
     }
-    console.log(draftPost)
     return draftPost
 }
 
