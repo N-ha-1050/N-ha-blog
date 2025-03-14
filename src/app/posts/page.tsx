@@ -4,7 +4,6 @@ import { TagList } from "@/components/tag/list"
 import { getPosts, getPostsCount } from "@/lib/db"
 import { Metadata } from "next"
 import { Suspense } from "react"
-import { auth } from "@/lib/auth"
 import Tags from "@/components/post/tags"
 
 export const metadata: Metadata = {
@@ -16,17 +15,19 @@ export default async function Posts({
     searchParams,
 }: {
     searchParams: Promise<{
-        q?: string | string[]
-        p?: string | string[]
-        t?: string | string[]
+        q?: string | string[] // 検索クエリ
+        p?: string | string[] // ページ番号
+        t?: string | string[] // タグ
+        v?: string | string[] // 公開設定
     }>
 }) {
-    const session = await auth()
-    const isAdmin = session?.user?.isAdmin ?? false
-    const { q, p, t } = await searchParams
+    const { q, p, t, v } = await searchParams
     const query = Array.isArray(q) ? q[0] : (q ?? "")
     const page = Number(Array.isArray(p) ? p[0] : p) || 1
     const tags = Array.isArray(t) ? t : t ? [t] : []
+    const isVisibleText = Array.isArray(v) ? v[0] : v
+    const isVisible =
+        isVisibleText === "t" ? true : isVisibleText === "f" ? false : undefined
 
     return (
         <div className="flex flex-col items-center gap-4">
@@ -44,7 +45,7 @@ export default async function Posts({
                     query={query}
                     page={page}
                     tags={tags}
-                    isAdmin={isAdmin}
+                    isVisible={isVisible}
                 />
             </Suspense>
         </div>
@@ -55,16 +56,16 @@ async function PostsListWithFetch({
     query,
     page,
     tags,
-    isAdmin,
+    isVisible,
 }: {
     query: string
     page: number
     tags: string[]
-    isAdmin: boolean
+    isVisible?: boolean
 }) {
     const [posts, postsCount] = await Promise.all([
-        getPosts({ page, query, tags, isAdmin }),
-        getPostsCount({ query, tags, isAdmin }),
+        getPosts({ page, query, tags, isVisible }),
+        getPostsCount({ query, tags, isVisible }),
     ])
     return <PostList posts={posts} postsCount={postsCount} />
 }

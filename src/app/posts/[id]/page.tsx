@@ -2,10 +2,9 @@ import { markReact } from "@/lib/markdown"
 import { notFound } from "next/navigation"
 import { TagList } from "@/components/tag/list"
 import { formatDate } from "@/lib/date"
-import { getPost } from "@/lib/db"
+import { getIsAdmin, getPost } from "@/lib/db"
 import "katex/dist/katex.min.css"
 import "highlight.js/styles/base16/google-dark.min.css"
-import { auth } from "@/lib/auth"
 import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"
 import { Edit, Globe, Lock } from "lucide-react"
@@ -17,9 +16,7 @@ const validId = (id: string) => id && id.length === 36
 export async function generateMetadata({ params }: Props) {
     const { id } = await params
     if (!validId(id)) return notFound()
-    const session = await auth()
-    const isAdmin = session?.user?.isAdmin ?? false
-    const post = await getPost({ id, isAdmin })
+    const post = await getPost({ id })
     if (!post) return notFound()
     return {
         title: post.title,
@@ -29,9 +26,8 @@ export async function generateMetadata({ params }: Props) {
 export default async function Post({ params }: Props) {
     const { id } = await params
     if (!validId(id)) return notFound()
-    const session = await auth()
-    const isAdmin = session?.user?.isAdmin ?? false
-    const post = await getPost({ id, isAdmin })
+    const isAdmin = await getIsAdmin()
+    const post = await getPost({ id })
     if (!post) return notFound()
     const createdAt = formatDate(post.createdAt)
     const updatedAt = formatDate(post.updatedAt)

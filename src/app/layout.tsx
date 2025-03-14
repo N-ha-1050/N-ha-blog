@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import "@/app/globals.css"
 import { Header } from "@/components/layout/header"
 import { ThemeProvider } from "@/components/theme/theme-provider"
+import { notoSansJP } from "@/lib/fonts"
 
 export const metadata: Metadata = {
     title: {
@@ -19,7 +20,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ja" suppressHydrationWarning>
-            <body>
+            <body className={`${notoSansJP.className} antialiased`}>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"

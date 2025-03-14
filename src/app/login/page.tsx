@@ -1,5 +1,10 @@
 import { SignIn } from "@/components/auth/sign-in"
+import { Metadata } from "next"
 
+export const metadata: Metadata = {
+    title: "ログイン",
+    description: "ログインページです。",
+}
 export default async function Login(props: {
     searchParams: Promise<{
         callbackUrl?: string
