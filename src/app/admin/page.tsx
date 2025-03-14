@@ -15,6 +15,9 @@ export default function Admin() {
                 <Link href="/admin/editor" className={buttonVariants()}>
                     Editor
                 </Link>
+                <Link href="/posts?v=t" className={buttonVariants()}>
+                    Visible Posts
+                </Link>
                 <Link href="/admin/json" className={buttonVariants()}>
                     JSON
                 </Link>
