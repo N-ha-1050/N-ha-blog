@@ -1,7 +1,6 @@
 import { Form } from "@/components/editor/form"
 import { auth } from "@/lib/auth"
 import { getPost } from "@/lib/db"
-import { notFound } from "next/navigation"
 import { Suspense } from "react"
 import "katex/dist/katex.min.css"
 import "highlight.js/styles/base16/google-dark.min.css"
