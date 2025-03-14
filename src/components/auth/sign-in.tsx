@@ -1,9 +1,10 @@
-import { signIn } from "@/lib/auth"
-import { AuthError } from "next-auth"
-import { redirect } from "next/navigation"
+"use client"
+
+import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { signInAction } from "@/lib/auth-actions"
 
 const errors = [
     { id: "Configuration", message: "Configuration error." },
@@ -19,52 +20,40 @@ type Props = {
     error?: string
 }
 
-export async function SignIn({ callbackUrl = "/auth", error }: Props) {
-    const errorMessages = errors.find(({ id }) => id === error)?.message
+export function SignIn({ callbackUrl = "/auth", error }: Props) {
+    const [errorId, formAction, isPending] = useActionState(
+        async (prevState: string | undefined, formData: FormData) => {
+            formData.append("redirectTo", callbackUrl)
+            return await signInAction(formData)
+        },
+        error,
+    )
+
+    const errorMessage = errors.find(({ id }) => id === errorId)?.message
     return (
         <div className="flex flex-col items-stretch gap-4">
-            {errorMessages && <p className="text-red-600">{errorMessages}</p>}
+            {errorMessage && <p className="text-red-600">{errorMessage}</p>}
+
             <form
+                action={formAction}
                 className="flex flex-col items-stretch gap-2"
-                action={async (formData) => {
-                    "use server"
-                    try {
-                        formData.append("redirectTo", callbackUrl)
-                        await signIn("credentials", formData)
-                    } catch (error) {
-                        if (error instanceof AuthError) {
-                            return redirect(`/login?error=${error.type}`)
-                        }
-                        throw error
-                    }
-                }}
             >
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" type="email" />
+                <Input
+                    disabled={isPending}
+                    id="email"
+                    name="email"
+                    type="email"
+                />
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" name="password" type="password" />
-                <Button>Sign In</Button>
+                <Input
+                    disabled={isPending}
+                    id="password"
+                    name="password"
+                    type="password"
+                />
+                <Button disabled={isPending}>Sign In</Button>
             </form>
-            {/* TODO: アカウント連携機能を作ったら公開 */}
-            {/* {providerMap.map(({ id, name }) => (
-                <form
-                    className="flex flex-col items-stretch gap-2"
-                    key={id}
-                    action={async () => {
-                        "use server"
-                        try {
-                            await signIn(id, { redirectTo: callbackUrl })
-                        } catch (error) {
-                            if (error instanceof AuthError) {
-                                return redirect(`/login?error=${error.type}`)
-                            }
-                            throw error
-                        }
-                    }}
-                >
-                    <Button>Sign in with {name}</Button>
-                </form>
-            ))} */}
         </div>
     )
 }
