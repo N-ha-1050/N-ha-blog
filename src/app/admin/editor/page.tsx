@@ -18,14 +18,13 @@ export default async function Editor({
 }: {
     searchParams: Promise<{ id?: string }>
 }) {
-    // User認証
+    // ユーザー名取得
     const session = await auth()
-    const isAdmin = session?.user.isAdmin
-    if (!isAdmin) notFound()
+    const userName = session?.user.name ?? "Unknown"
 
     // 個別記事取得
     const { id } = await searchParams
-    const rowPost = id && validId(id) ? await getPost({ id, isAdmin }) : null
+    const rowPost = id && validId(id) ? await getPost({ id }) : null
     const post = rowPost
         ? { ...rowPost, tags: rowPost.tags.map((tag) => tag.name) }
         : null
@@ -34,12 +33,7 @@ export default async function Editor({
         <div className="flex size-full flex-col items-center gap-4">
             <h1 className="mb-8 text-4xl font-bold">Editor</h1>
             <Suspense>
-                <Form
-                    post={post}
-                    id={rowPost?.id}
-                    isAdmin={isAdmin}
-                    userName={session.user.name ?? "Unknown"}
-                />
+                <Form post={post} id={rowPost?.id} userName={userName} />
             </Suspense>
         </div>
     )

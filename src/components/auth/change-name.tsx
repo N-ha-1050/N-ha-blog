@@ -14,10 +14,9 @@ import { Label } from "@/components/ui/label"
 import { changeName } from "@/lib/user"
 import { useActionState } from "react"
 
-export function ChangeName({ name, email }: { name: string; email: string }) {
+export function ChangeName({ name }: { name: string }) {
     const [errorMessage, formAction, isPending] = useActionState(
         async (prevState: string | undefined, formData: FormData) => {
-            formData.append("email", email)
             return await changeName(formData)
         },
         undefined,

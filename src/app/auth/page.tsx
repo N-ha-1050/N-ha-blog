@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 export default async function Auth() {
     const session = await auth()
-    if (!session?.user) {
+    if (!session?.user.isActive) {
         redirect("/login")
     }
     const user = session.user
@@ -21,10 +21,7 @@ export default async function Auth() {
             <h1 className="mb-8 text-4xl font-bold">ユーザー情報</h1>
             <h2 className="text-xl">ようこそ {user.name ?? "Unknown"} さん</h2>
             <div className="flex gap-2">
-                <ChangeName
-                    name={user.name ?? "Unknown"}
-                    email={user.email ?? ""}
-                />
+                <ChangeName name={user.name ?? "Unknown"} />
                 {user.isAdmin && (
                     <Link href="/admin" className={buttonVariants()}>
                         管理ページ

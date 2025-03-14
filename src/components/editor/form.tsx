@@ -16,12 +16,11 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 type Props = {
     post: DraftPost | null
-    isAdmin: true
     id?: string
     userName: string
 }
 
-export function Form({ id, isAdmin, post, userName }: Props) {
+export function Form({ id, post, userName }: Props) {
     // 下書き取得用接頭辞
     const prefix = id ?? "create"
 
@@ -70,7 +69,6 @@ export function Form({ id, isAdmin, post, userName }: Props) {
                     content,
                     tags: tags.map((name) => ({ name })),
                     isVisible,
-                    isAdmin,
                 })
                 // console.dir(updatedPost, { depth: null })
                 return `Post updated. (id: ${updatedPost.id})`
@@ -85,7 +83,6 @@ export function Form({ id, isAdmin, post, userName }: Props) {
                     content,
                     tags: tags.map((name) => ({ name })),
                     isVisible,
-                    isAdmin,
                 })
                 // console.dir(createdPost, { depth: null })
                 return `Post created. (id: ${createdPost.id})`
