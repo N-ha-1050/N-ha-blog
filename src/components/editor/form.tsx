@@ -20,7 +20,7 @@ type Props = {
     userName: string
 }
 
-export function Form({ id, post, userName }: Props) {
+export function EditorForm({ id, post, userName }: Props) {
     // 下書き取得用接頭辞
     const prefix = id ?? "create"
 

@@ -1,4 +1,4 @@
-import { Form } from "@/components/editor/form"
+import { EditorForm } from "@/components/editor/form"
 import { auth } from "@/lib/auth"
 import { getPost } from "@/lib/db"
 import { Suspense } from "react"
@@ -32,7 +32,7 @@ export default async function Editor({
         <div className="flex size-full flex-col items-center gap-4">
             <h1 className="mb-8 text-4xl font-bold">Editor</h1>
             <Suspense>
-                <Form post={post} id={rowPost?.id} userName={userName} />
+                <EditorForm post={post} id={rowPost?.id} userName={userName} />
             </Suspense>
         </div>
     )

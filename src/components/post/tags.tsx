@@ -28,7 +28,6 @@ export default function Tags() {
         replace(`${pathname}?${params.toString()}`)
     }
     const [tags, setTags] = useState(searchParams.getAll("t") || [])
-    const [tag, setTag] = useState("")
 
     return (
         <Dialog>
@@ -43,28 +42,27 @@ export default function Tags() {
                     </DialogDescription>
                 </DialogHeader>
                 <form
-                    onSubmit={(e) => {
-                        e.preventDefault()
-                        if (tag && !tags.includes(tag)) {
-                            setTags([...tags, tag])
-                            setTag("")
-                        }
-                    }}
                     className="flex gap-2"
+                    action={(formData: FormData) => {
+                        const formTags = new Set(
+                            formData
+                                .get("tags")
+                                ?.toString()
+                                .split(",")
+                                .filter((tag) => tag && !tags.includes(tag)),
+                        )
+                        setTags([...tags, ...formTags])
+                    }}
                 >
-                    <Input
-                        placeholder="タグ名"
-                        value={tag}
-                        onChange={(e) => setTag(e.target.value)}
-                    />
+                    <Input name="tags" placeholder="タグ名" />
                     <Button variant="secondary">追加</Button>
                 </form>
                 <TagList
+                    className="text-lg"
                     tags={tags.map((name) => ({ name }))}
                     tagClick={(tag) => {
                         setTags(tags.filter((name) => tag.name !== name))
                     }}
-                    className="text-lg"
                 />
                 <DialogFooter>
                     <DialogClose asChild>

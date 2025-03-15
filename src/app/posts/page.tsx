@@ -2,25 +2,40 @@ import { PostList, PostListSkeleton } from "@/components/post/list"
 import Search from "@/components/post/search"
 import { TagList } from "@/components/tag/list"
 import { getPosts, getPostsCount } from "@/lib/db"
-import { Metadata } from "next"
 import { Suspense } from "react"
 import Tags from "@/components/post/tags"
+import { CANONICAL_BASE_URL } from "@/lib/config"
 
-export const metadata: Metadata = {
-    title: "記事一覧",
-    description: "記事一覧ページです。",
-}
-
-export default async function Posts({
-    searchParams,
-}: {
+type Props = {
     searchParams: Promise<{
         q?: string | string[] // 検索クエリ
         p?: string | string[] // ページ番号
         t?: string | string[] // タグ
         v?: string | string[] // 公開設定
     }>
-}) {
+}
+export async function generateMetadata({ searchParams }: Props) {
+    const { query, page, tags, isVisible } = await parseSearchParams({
+        searchParams,
+    })
+    const params = new URLSearchParams()
+    if (query) params.set("q", query)
+    if (page > 1) params.set("p", String(page))
+    if (tags.length > 0) tags.sort().forEach((tag) => params.append("t", tag))
+    if (isVisible !== undefined) params.set("v", isVisible ? "t" : "f")
+    return {
+        title: "記事一覧",
+        description: "記事一覧ページです。",
+        alternates: {
+            canonical:
+                params.size > 0
+                    ? `${CANONICAL_BASE_URL}/posts?${params.toString()}`
+                    : `${CANONICAL_BASE_URL}/posts`,
+        },
+    }
+}
+
+async function parseSearchParams({ searchParams }: Props) {
     const { q, p, t, v } = await searchParams
     const query = Array.isArray(q) ? q[0] : (q ?? "")
     const page = Number(Array.isArray(p) ? p[0] : p) || 1
@@ -28,6 +43,13 @@ export default async function Posts({
     const isVisibleText = Array.isArray(v) ? v[0] : v
     const isVisible =
         isVisibleText === "t" ? true : isVisibleText === "f" ? false : undefined
+    return { query, page, tags, isVisible }
+}
+
+export default async function Posts({ searchParams }: Props) {
+    const { query, page, tags, isVisible } = await parseSearchParams({
+        searchParams,
+    })
 
     return (
         <div className="flex flex-col items-center gap-4">

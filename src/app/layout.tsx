@@ -3,6 +3,8 @@ import "@/app/globals.css"
 import { Header } from "@/components/layout/header"
 import { ThemeProvider } from "@/components/theme/theme-provider"
 import { notoSansJP } from "@/lib/fonts"
+import { CANONICAL_BASE_URL } from "@/lib/config"
+import { GoogleAnalytics } from "@next/third-parties/google"
 
 export const metadata: Metadata = {
     title: {
@@ -11,6 +13,7 @@ export const metadata: Metadata = {
     },
     description: "N_ha のブログ(個人的なメモ)",
     icons: "/favicon.svg",
+    alternates: { canonical: `${CANONICAL_BASE_URL}/` },
 }
 
 export default function RootLayout({
@@ -33,6 +36,8 @@ export default function RootLayout({
                     </main>
                 </ThemeProvider>
             </body>
+            {/* Google Analytics: https://nextjs.org/docs/messages/next-script-for-ga */}
+            <GoogleAnalytics gaId="G-45KN284659" />
         </html>
     )
 }

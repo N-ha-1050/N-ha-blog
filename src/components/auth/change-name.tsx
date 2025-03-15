@@ -33,23 +33,26 @@ export function ChangeName({ name }: { name: string }) {
                         新しい名前を入力してください。変更が完了したらログアウトされます。
                     </DialogDescription>
                 </DialogHeader>
-                <form action={formAction}>
+                <form
+                    action={formAction}
+                    className="flex flex-col items-stretch gap-2"
+                >
                     {errorMessage && (
                         <p className="text-red-600">{errorMessage}</p>
                     )}
                     <Label htmlFor="name">新しい名前</Label>
                     <Input
-                        className="mb-2"
+                        id="name"
                         name="name"
-                        placeholder="新しい名前"
                         defaultValue={name}
+                        disabled={isPending}
                     />
                     <Label htmlFor="password">パスワード</Label>
                     <Input
-                        className="mb-4"
+                        id="password"
                         name="password"
-                        placeholder="パスワード"
                         type="password"
+                        disabled={isPending}
                     />
                     <Button disabled={isPending}>変更</Button>
                 </form>
