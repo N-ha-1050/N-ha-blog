@@ -8,6 +8,7 @@ import "highlight.js/styles/base16/google-dark.min.css"
 import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"
 import { Edit, Globe, Lock } from "lucide-react"
+import { CANONICAL_BASE_URL } from "@/lib/config"
 
 type Props = { params: Promise<{ id: string }> }
 
@@ -20,6 +21,7 @@ export async function generateMetadata({ params }: Props) {
     if (!post) return notFound()
     return {
         title: post.title,
+        alternates: { canonical: `${CANONICAL_BASE_URL}/posts/${post.id}` },
     }
 }
 

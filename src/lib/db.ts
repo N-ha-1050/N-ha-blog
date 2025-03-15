@@ -125,6 +125,14 @@ export const getAllPosts = async () => {
     })
 }
 
+export const getAllVisiblePosts = async () => {
+    return await prisma.post.findMany({
+        where: { isVisible: true },
+        include: { tags: true },
+        orderBy: { createdAt: "asc" },
+    })
+}
+
 export type GetPost = { id: string }
 
 export const getPost = async ({ id }: GetPost) => {
